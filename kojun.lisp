@@ -28,7 +28,7 @@
 (defun getmatrix (matrix x y) (aref matrix y x))
 (defun sethash (k v dict) (setf (gethash k dict) v))
 (defun coords+ (x y) `((,(1- x) ,y) (,(1+ x) ,y) (,x ,(1- y)) (,x ,(1+ y))))
-(defun range (l u) (loop for x from l below (1+ u) collect x))
+(defun range (l u) (loop for x from (1+ l) below u collect x))
 
 (defun setpuzzle (x y value) (setf (aref puzzle y x) value))
 (defun getregion (x y) (getmatrix regions x y))
@@ -56,7 +56,7 @@
       (a (try-get-region-neighbor x y x (1+ y) -1))
       (b (try-get-region-neighbor x y x (1- y) (1+ (get-region-size x y))))
    )
-   (range (1+ a) (1- b))))
+   (range a b)))
 
 (defun get-available-numbers (x y)
    (let (
@@ -82,18 +82,17 @@
 (defun trynumbers (x y numbers) 
    (when numbers 
       (setpuzzle x y (first numbers))
-
-      (unless* (solve (1+ x) y)
+      (unless* (solve x (1+ y))
          (setpuzzle x y 0)
          (trynumbers x y (rest numbers)))))
 
 (defun solve (x y) (cond
-   ((>= y puzzle-h) t)
-   ((>= x puzzle-w) (solve 0 (1+ y)))
+   ((>= x puzzle-w) t)
+   ((>= y puzzle-h) (solve (1+ x) 0))
    (t
       (if (= 0 (getmatrix puzzle x y))
          (trynumbers x y (get-available-numbers x y))
-         (solve (1+ x) y)))))
+         (solve x (1+ y))))))
 
 ;------------------------------------------------------------------------------;
 
