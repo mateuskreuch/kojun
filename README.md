@@ -26,8 +26,6 @@ Kojun is a logic puzzle with appearance similar to Sudoku. There are three rules
 - Numbers in orthogonally adjacent cells must be different.
 - If two cells are vertically adjacent in the same region, the number in the upper cell must be greater than the number in the lower cell.
 
-Replicating this puzzle's solver in different languages is a good way to get used to the language; although it's a simple algorithm, it deals with many fundamental concepts. This means it's specially good to learn more exoteric languages, since the logic won't get in the way.
-
 The solution to the puzzle displayed is as follows:
 
 ```
